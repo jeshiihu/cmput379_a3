@@ -23,7 +23,7 @@ struct llist {
 }
 
 // linked list functions to be used by hash table
-llist ll_new(int key, double data);
+llist* ll_new(int key, double data);
 llist* ll_insert(llist* head, llist* new);
 llist* ll_delete(llist* head, llist* item);
 llist* ll_search(llist* head, int key);
@@ -34,6 +34,9 @@ void ht_delete(llist** table, int size, llist* item);
 llist* ht_search(llist** table, int size, int key);
 
 // simulator functions
+int page_size, window_size, table_size;
+llist** table;
+
 void init(int psize, int winsize);
 void put(unsigned int address, int value);
 int get(unsigned int address);

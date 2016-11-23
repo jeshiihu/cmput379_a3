@@ -1,15 +1,24 @@
 
 
 void init(int psize, int winsize) {
-
+	page_size = psize;
+	window_size = winsize;
+	table_size = 0;
+	table = malloc(table_size*sizeof(llist*));
 }
 
 void put(unsigned int address, int value) {
+	table_size++;
+	if(table_size > 1) // have already allocated for table size 1
+		table = realloc(table_size*sizeof(llist*));
 
+	llist* newItem = ll_new(address, value);
+	ht_insert(table, table_size, newItem);
 }
 
 int get(unsigned int address) {
-
+	llist* foundLlist = ht_search(table, table_size, address);
+	return foundLlist->data;
 }
 
 void done() {
@@ -18,7 +27,7 @@ void done() {
 
 
 // ======================= linked list functions to be used by hash table =======================
-llist ll_new(int key, double data) {
+llist* ll_new(int key, double data) {
 	llist* new = malloc(sizeof(llist));
 	new->key = key;
 	new->data = data;
@@ -62,7 +71,7 @@ llist* ll_search(llist* head, int key) {
 
 // ======================= hash table functions =======================
 // hash table functions
-void ht_inset(llist** table, int size, llist* item) {
+void ht_insert(llist** table, int size, llist* item) {
 	int key = item->key
 	table[key%size] = ll_insert(table[key%size], item);
 }
