@@ -16,6 +16,8 @@
 
 // if working set size is huge, you're referencing a lot and a lot of work
 
+// i/page_size = page
+
 struct llist {
 	int key;
 	double data;
@@ -36,6 +38,10 @@ llist* ht_search(llist** table, int size, int key);
 // simulator functions
 int page_size, window_size, table_size;
 llist** table;
+int* list_of_pages;
+int list_of_page_size;
+
+void addToHistory(unsigned int address);
 
 void init(int psize, int winsize);
 void put(unsigned int address, int value);

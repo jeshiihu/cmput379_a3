@@ -4,25 +4,39 @@ void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
 	table_size = 0;
-	table = malloc(table_size*sizeof(llist*));
+	list_of_page_size = 0;
+	table = malloc(1*sizeof(llist*));
+	list_of_pages = malloc(1*sizeof(int))
 }
 
 void put(unsigned int address, int value) {
 	table_size++;
-	if(table_size > 1) // have already allocated for table size 1
-		table = realloc(table_size*sizeof(llist*));
-
+	// if(table_size > 1) // have already allocated for table size 1
+	table = realloc(table_size*sizeof(llist*));
 	llist* newItem = ll_new(address, value);
 	ht_insert(table, table_size, newItem);
+
+	addToHistory(address);
 }
 
 int get(unsigned int address) {
 	llist* foundLlist = ht_search(table, table_size, address);
+
+	addToHistory(address);
 	return foundLlist->data;
 }
 
 void done() {
 
+}
+
+// adding page to our history
+void addToHistory(unsigned int address) {
+	list_of_page_size++;
+	// if(list_of_page_size > 1)
+	list_of_pages = realloc(list_of_page_size*sizeof(int));
+	int page = address/page_size;
+	list_of_pages[list_of_page_size-1] = page;
 }
 
 
