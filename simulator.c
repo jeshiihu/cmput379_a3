@@ -1,7 +1,4 @@
 
-// linked list functions to be used by hash table
-
-
 
 void init(int psize, int winsize) {
 
@@ -17,4 +14,64 @@ int get(unsigned int address) {
 
 void done() {
 
+}
+
+
+// ======================= linked list functions to be used by hash table =======================
+llist ll_new(int key, double data) {
+	llist* new = malloc(sizeof(llist));
+	new->key = key;
+	new->data = data;
+	new->next = NULL;
+	new->previous = NULL;
+	
+	return new;
+}
+
+// Example: head = ll_insert(head, new);
+llist* ll_insert(llist* head, llist* new) {
+	new->next = head;
+	if(head != NULL)
+		head->previous = new;
+	head = new;
+	
+	return head;
+}
+
+// Example: head = ll_delete(head, item); (remember to free memory for item)
+llist* ll_delete(llist* head, llist* item) {
+	if(item->previous != NULL)
+		item->previous->next = item->next;
+	if(item->next != NULL)
+		item->next->previous = item->previous;
+	if(item == head)
+		head = item->next;
+
+	return head;
+}
+
+// Example: llist* item = ll_search(head, key)
+llist* ll_search(llist* head, int key) {
+	for(; head!=NULL; head=head->next) {
+		if(head->key == key)
+			return head;
+	}
+
+	return NULL;
+}
+
+// ======================= hash table functions =======================
+// hash table functions
+void ht_inset(llist** table, int size, llist* item) {
+	int key = item->key
+	table[key%size] = ll_insert(table[key%size], item);
+}
+
+void ht_delete(llist** table, int size, llist* item) {
+	int key = item->key;
+	table[key%size] = ll_delete(table[key%size], item);
+}
+
+llist* ht_search(llist** table, int size, int key) {
+	return ll_search(table[key%size], key);
 }
