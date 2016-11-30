@@ -1,12 +1,15 @@
+#include "simulator.h" 
 
-
+void dummy() {
+	printf("Dummy\n");
+}
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
 	table_size = 0;
 	list_of_page_size = 0;
 	table = malloc(1*sizeof(llist*));
-	list_of_pages = malloc(1*sizeof(int))
+	list_of_pages = malloc(1*sizeof(int));
 }
 
 void put(unsigned int address, int value) {
@@ -27,7 +30,7 @@ int get(unsigned int address) {
 }
 
 void done() {
-
+	printf("done\n");
 }
 
 // adding page to our history

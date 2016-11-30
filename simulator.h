@@ -1,4 +1,7 @@
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <strings.h>
 // hashtbale, address is key and value
 
 // working set: number of unique pages 
@@ -18,12 +21,15 @@
 
 // i/page_size = page
 
-struct llist {
+
+typedef struct {
 	int key;
 	double data;
-	struct linked_list* next, previous;
-}
+	struct llist* next;
+	struct llist* previous;
+} llist;
 
+void dummy();
 // linked list functions to be used by hash table
 llist* ll_new(int key, double data);
 llist* ll_insert(llist* head, llist* new);
