@@ -30,7 +30,7 @@ int get(unsigned int address) {
 }
 
 void done() {
-	printf("done\n");
+	fprintf(stdout, "hello world\n" );
 }
 
 // adding page to our history

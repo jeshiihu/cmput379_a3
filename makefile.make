@@ -9,11 +9,10 @@ clean:
 	-rm -f *.o quicksort heapsort
 
 quicksort: quicksort.c
-	gcc -o quicksort quicksort.c simulator.c
-
+	gcc -o quicksort simulator.c quicksort.c 
 
 heapsort: heapsort.c 
-	gcc -o heapsort heapsort.c simulator.c
+	gcc -o heapsort simulator.c heapsort.c
 
 run:
 	./heapsort
