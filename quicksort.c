@@ -4,7 +4,7 @@
 int getNumberOfDiffPagesAccessed(int* page_array, int array_len) {
 
 // LOOL THIS IS WRONG HAVE TO REDO
-	// int duplicateCount = 0;
+	int duplicateCount = 0;
 
 	// int found_pages_size = 1;
 	// int* found_pages = malloc(found_pages_size*sizeof(int));
@@ -21,7 +21,7 @@ int getNumberOfDiffPagesAccessed(int* page_array, int array_len) {
 	// 	}
 	// }
 
-	// return duplicateCount;
+	return duplicateCount;
 }
 
 void doneTempt() {
@@ -63,9 +63,9 @@ void doneTempt() {
 	}
 
 
-	fprintf(stdout, "total: %d size: %d\n", final_data, list_of_page_size);
-	float avg = (float)total/(float)list_of_page_size; // bumps it down always no matter what
-	fprintf(stdout, "\nAverage Working Set Size: %f\n", avg);
+	// fprintf(stdout, "total: %d size: %d\n", final_data, list_of_page_size);
+	// float avg = (float)total/(float)list_of_page_size; // bumps it down always no matter what
+	// fprintf(stdout, "\nAverage Working Set Size: %f\n", avg);
 }
 
 void process() {
@@ -73,7 +73,7 @@ void process() {
 	printf("Page size: %d, Window Size: %d\n", page_size, window_size);
 
 	// init(page_size, window_size);
-	// dummy();
+	dummy();
 	doneTempt();
 }
 

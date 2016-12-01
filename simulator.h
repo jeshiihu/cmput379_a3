@@ -22,12 +22,14 @@
 // i/page_size = page
 
 
-typedef struct {
+struct linked_list {
 	int key;
 	double data;
-	struct llist* next;
-	struct llist* previous;
-} llist;
+	struct linked_list* next;
+	struct linked_list* previous;
+};
+
+typedef struct linked_list llist;
 
 void dummy();
 // linked list functions to be used by hash table
@@ -37,7 +39,7 @@ llist* ll_delete(llist* head, llist* item);
 llist* ll_search(llist* head, int key);
 
 // hash table functions
-void ht_inset(llist** table, int size, llist* item);
+void ht_insert(llist** table, int size, llist* item);
 void ht_delete(llist** table, int size, llist* item);
 llist* ht_search(llist** table, int size, int key);
 

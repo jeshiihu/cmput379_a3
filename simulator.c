@@ -15,7 +15,7 @@ void init(int psize, int winsize) {
 void put(unsigned int address, int value) {
 	table_size++;
 	// if(table_size > 1) // have already allocated for table size 1
-	table = realloc(table_size*sizeof(llist*));
+	table = realloc(table, table_size*sizeof(llist*));
 	llist* newItem = ll_new(address, value);
 	ht_insert(table, table_size, newItem);
 
@@ -37,7 +37,7 @@ void done() {
 void addToHistory(unsigned int address) {
 	list_of_page_size++;
 	// if(list_of_page_size > 1)
-	list_of_pages = realloc(list_of_page_size*sizeof(int));
+	list_of_pages = realloc(list_of_pages, list_of_page_size*sizeof(int));
 	int page = address/page_size;
 	list_of_pages[list_of_page_size-1] = page;
 }
@@ -89,7 +89,7 @@ llist* ll_search(llist* head, int key) {
 // ======================= hash table functions =======================
 // hash table functions
 void ht_insert(llist** table, int size, llist* item) {
-	int key = item->key
+	int key = item->key;
 	table[key%size] = ll_insert(table[key%size], item);
 }
 
