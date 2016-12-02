@@ -31,7 +31,6 @@ struct linked_list {
 
 typedef struct linked_list llist;
 
-void dummy();
 // linked list functions to be used by hash table
 llist* ll_new(int key, double data);
 llist* ll_insert(llist* head, llist* new);

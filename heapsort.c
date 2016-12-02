@@ -3,7 +3,6 @@
 
 void process() {
 	printf("HEAPSORT\n");
-	dummy();
 }
 
 int main(int argc, char** argv) {
