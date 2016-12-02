@@ -25,8 +25,8 @@
 struct linked_list {
 	int key;
 	double data;
-	struct linked_list* next;
-	struct linked_list* previous;
+	struct linked_list* next; // left
+	struct linked_list* previous; //right
 };
 
 typedef struct linked_list llist;
@@ -43,12 +43,13 @@ void ht_delete(llist** table, int size, llist* item);
 llist* ht_search(llist** table, int size, int key);
 
 // simulator functions
-int page_size, window_size, table_size;
+int page_size, window_size, table_size, numberOfElements;
 llist** table;
 int* list_of_pages;
 int list_of_page_size;
 
 void addToHistory(unsigned int address);
+void printSortedValues()
 
 void init(int psize, int winsize);
 void put(unsigned int address, int value);

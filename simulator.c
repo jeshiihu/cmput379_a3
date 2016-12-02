@@ -3,16 +3,14 @@
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 0;
+	table_size = 9;
 	list_of_page_size = 0;
-	table = malloc(1*sizeof(llist*));
+	table = malloc(table_size*sizeof(llist*));
+	numberOfElements = 0;
 	list_of_pages = malloc(1*sizeof(int));
 }
 
 void put(unsigned int address, int value) {
-	table_size++;
-	// if(table_size > 1) // have already allocated for table size 1
-	table = realloc(table, table_size*sizeof(llist*));
 	llist* newItem = ll_new(address, value);
 	ht_insert(table, table_size, newItem);
 
@@ -27,7 +25,7 @@ int get(unsigned int address) {
 }
 
 void done() {
-	// 	fprintf(stdout, " === The history of the working set ===\n");
+	fprintf(stdout, " === The history of the working set ===\n");
 
 // 	//TEST CODE
 // 	list_of_page_size = 6;
@@ -68,6 +66,16 @@ void done() {
 // 	// fprintf(stdout, "total: %d size: %d\n", final_data, list_of_page_size);
 // 	// float avg = (float)total/(float)list_of_page_size; // bumps it down always no matter what
 // 	// fprintf(stdout, "\nAverage Working Set Size: %f\n", avg);
+}
+
+void printSortedValues() {
+	int i;
+	for(i = 0; i < numberOfElements; i++) {
+		int val = get(i);
+		printf("%d ", val);
+	}
+
+	printf("\n\n");
 }
 
 // adding page to our history
