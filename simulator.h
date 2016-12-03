@@ -52,6 +52,7 @@ int list_of_page_size;
 
 void addToHistory(unsigned int address);
 void printSortedValues();
+void printAverageWorkingSet(int* arr, int size);
 
 void init(int psize, int winsize);
 void put(unsigned int address, int value);

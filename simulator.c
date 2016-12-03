@@ -25,7 +25,7 @@ int get(unsigned int address) {
 }
 
 void done() {
-	fprintf(stdout, " === The history of the working set ===\n");
+	fprintf(stdout, "=== The history of the working set ===\n");
 
 	//TEST CODE
 	list_of_page_size = 7;
@@ -67,7 +67,22 @@ void done() {
 	}
 
 	printf("\n");
+	printAverageWorkingSet(diffPagePartitions, numberOfPartitions);
+
+	printf("\n");
 	printSortedValues();
+}
+
+void printAverageWorkingSet(int* arr, int size) {
+	int i;
+	int sum = 0;
+
+	for(i = 0; i < size; i++)
+		sum += arr[i];
+
+	float avg = (float)sum/(float)size;
+	printf("=== Average working set size ===\n");
+	printf("%f\n", avg);
 }
 
 int getNumberOfDifferentPages(int* arr, int size) {
