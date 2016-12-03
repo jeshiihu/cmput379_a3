@@ -3,16 +3,16 @@
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 0;
+	table_size = 1000;
 	list_of_page_size = 0;
-	table = malloc(1*sizeof(llist*));
+	table = malloc(table_size*sizeof(llist*));
 	list_of_pages = malloc(1*sizeof(int));
 }
 
 void put(unsigned int address, int value) {
-	table_size++;
+	//table_size++;
 	// if(table_size > 1) // have already allocated for table size 1
-	table = realloc(table, table_size*sizeof(llist*));
+	//table = realloc(table, table_size*sizeof(llist*));
 	llist* newItem = ll_new(address, value);
 	ht_insert(table, table_size, newItem);
 
@@ -27,6 +27,7 @@ int get(unsigned int address) {
 }
 
 void done() {
+
 	// 	fprintf(stdout, " === The history of the working set ===\n");
 
 // 	//TEST CODE
