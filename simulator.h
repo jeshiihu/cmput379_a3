@@ -45,7 +45,9 @@ void ht_delete(llist** table, int size, llist* item);
 llist* ht_search(llist** table, int size, int key);
 
 // simulator functions
-int page_size, window_size, table_size, numberOfElements;
+int page_size, window_size, table_size
+//changed numberOfElements to be unsigned int
+unsigned int numberOfElements;
 llist** table;
 int* list_of_pages;
 int list_of_page_size;

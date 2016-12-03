@@ -11,6 +11,7 @@ void init(int psize, int winsize) {
 }
 
 void put(unsigned int address, int value) {
+
 	llist* newItem = ll_new(address, value);
 	ht_insert(table, table_size, newItem);
 
@@ -25,6 +26,7 @@ int get(unsigned int address) {
 }
 
 void done() {
+<<<<<<< HEAD
 	free(table); // don't need it anymore so clean it up
 	fprintf(stdout, "=== The history of the working set ===\n");
 
