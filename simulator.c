@@ -101,6 +101,7 @@ void done() {
 	printf("Total number of partitions: %d\n", numberOfPartitions);
 
 	printf("Data of all working set sizes written to file: %s\n", getFileName());
+	printf("  To find avg please use function =AVG(A2:A%d)\n", numberOfPartitions+1);
 
 }
 
