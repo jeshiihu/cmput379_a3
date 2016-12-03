@@ -3,7 +3,7 @@
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 9;
+	table_size = 3;
 	list_of_page_size = 0;
 	table = malloc(table_size*sizeof(llist*));
 	numberOfElements = 0;
@@ -25,20 +25,23 @@ int get(unsigned int address) {
 }
 
 void done() {
+	printf("data: ");
+	
+
 	fprintf(stdout, "=== The history of the working set ===\n");
 
 	//TEST CODE
-	list_of_page_size = 7;
-	list_of_pages = malloc(list_of_page_size*sizeof(int));
-	list_of_pages[0] = 2;
-	list_of_pages[1] = 1;
-	list_of_pages[2] = 2;
-	list_of_pages[3] = 6;
-	list_of_pages[4] = 2;
-	list_of_pages[5] = 4;
-	list_of_pages[6] = 1;
+	// list_of_page_size = 7;
+	// list_of_pages = malloc(list_of_page_size*sizeof(int));
+	// list_of_pages[0] = 2;
+	// list_of_pages[1] = 1;
+	// list_of_pages[2] = 2;
+	// list_of_pages[3] = 6;
+	// list_of_pages[4] = 2;
+	// list_of_pages[5] = 4;
+	// list_of_pages[6] = 1;
 
-	window_size = 3; // expecting 2 3
+	// window_size = 3; // expecting 2 3
 	int win_count = 0; // window_size how many calls, needed to partition
 	int* pages_per_curr_win = malloc(window_size*sizeof(int));
 
