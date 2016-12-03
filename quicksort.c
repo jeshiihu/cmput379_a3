@@ -1,39 +1,43 @@
 
 #include "simulator.h"
 
-void swap(unsigned int index1, unsigned int index2) {
-	int tmpVal = get(index1);
+void swap(int index1, int index2) {
+	double tmp = get(index1);
 	put(index1, get(index2));
-	put(index2, tmpVal);
+	put(index2, tmp);
 }
 
-int inPlacePartitioning(unsigned int beginIndex, unsigned int endIndex) {
+int inPlacePartitioning(int beginIndex, int endIndex) {
 	int pivot = get(endIndex); // getting pivot element
-	unsigned int smallerIndex = beginIndex;
+	int i = beginIndex;
 
-	unsigned int leftIndex = beginIndex;
-	while(leftIndex < endIndex) {
-		for(; leftIndex < endIndex; leftIndex++) {
-			if(get(leftIndex) <= pivot) {
-				swap(leftIndex, smallerIndex);
-				smallerIndex++;
-			}
+	int j;
+	for(j = beginIndex; j <= endIndex-1; j++) {
+		if(get(j) <= pivot) {
+			swap(i, j);
+			i++;
 		}
-
-		swap(endIndex, smallerIndex);
 	}
-	
-	return smallerIndex;
+
+	swap(i, endIndex);
+	return i;
 }
 
 // beginIndex and endIndex are indices not data elements
-void quicksort(unsigned int beginIndex, unsigned int endIndex) {
-	int pivot = inPlacePartitioning(beginIndex, endIndex);
+void quicksort(int beginIndex, int endIndex) {
+	while(beginIndex < endIndex) {
 
-	if(beginIndex < pivot - 1)
-		quicksort(beginIndex, pivot-1);
-	if(pivot < endIndex)
-		quicksort(pivot, endIndex);
+		int pivot = inPlacePartitioning(beginIndex, endIndex);
+
+		if((pivot - beginIndex) < endIndex - pivot) {
+			quicksort(beginIndex, pivot-1);
+			beginIndex = pivot + 1;
+		}
+		else {
+			quicksort(pivot + 1, endIndex);
+			endIndex = pivot-1;
+		}
+	}
 }
 
 void process() {
@@ -56,11 +60,29 @@ void process() {
 		put(i, rand());
 	}
 
-	quicksort((unsigned int)0, (unsigned int)(numberOfElements-1));
+	// numberOfElements = 10;
+	// put(0, 14);
+	// put(1, 1);
+	// put(2, 12);
+	// put(3, 5);
+	// put(4, 26);
+	// put(5, 7);
+	// put(6, 14);
+	// put(7, 3);
+	// put(8, 7);
+	// put(9, 2);
+
+	quicksort(0, numberOfElements-1);
 }
 
 int main(int argc, char** argv) {
 	// error checking
+	if (argc != 3)
+	{
+		printf("Invalid arguments, please try again!\n");
+		return 0;
+	}
+
 	page_size = atoi(argv[1]);
 	window_size = atoi(argv[2]);
 

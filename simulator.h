@@ -25,7 +25,7 @@
 
 
 struct linked_list {
-	int key;
+	unsigned int key;
 	double data;
 	struct linked_list* next; // left
 	struct linked_list* previous; //right
@@ -34,18 +34,18 @@ struct linked_list {
 typedef struct linked_list llist;
 
 // linked list functions to be used by hash table
-llist* ll_new(int key, double data);
+llist* ll_new(unsigned int key, double data);
 llist* ll_insert(llist* head, llist* new);
 llist* ll_delete(llist* head, llist* item);
-llist* ll_search(llist* head, int key);
+llist* ll_search(llist* head, unsigned int key);
 
 // hash table functions
 void ht_insert(llist** table, int size, llist* item);
 void ht_delete(llist** table, int size, llist* item);
-llist* ht_search(llist** table, int size, int key);
+llist* ht_search(llist** table, int size, unsigned int key);
 
 // simulator functions
-int page_size, window_size, table_size
+int page_size, window_size, table_size;
 //changed numberOfElements to be unsigned int
 unsigned int numberOfElements;
 llist** table;

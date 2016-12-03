@@ -11,9 +11,15 @@ void init(int psize, int winsize) {
 }
 
 void put(unsigned int address, int value) {
-
-	llist* newItem = ll_new(address, value);
-	ht_insert(table, table_size, newItem);
+	llist* foundLlist = ht_search(table, table_size, address);
+	
+	if(foundLlist == NULL) {
+		llist* newItem = ll_new(address, value);
+		ht_insert(table, table_size, newItem);
+	}
+	else {
+		foundLlist->data = value;
+	}
 
 	addToHistory(address);
 }
@@ -26,7 +32,6 @@ int get(unsigned int address) {
 }
 
 void done() {
-<<<<<<< HEAD
 	free(table); // don't need it anymore so clean it up
 	fprintf(stdout, "=== The history of the working set ===\n");
 
@@ -105,7 +110,7 @@ void printSortedValues() {
 	int i;
 	for(i = 0; i < numberOfElements; i++) {
 		int val = get(i);
-		printf("%d ", val);
+		printf("Key/Addr:%d, Value:%d \n", i, val);
 	}
 
 	printf("\n\n");
@@ -122,7 +127,7 @@ void addToHistory(unsigned int address) {
 
 
 // ======================= linked list functions to be used by hash table =======================
-llist* ll_new(int key, double data) {
+llist* ll_new(unsigned int key, double data) {
 	llist* new = malloc(sizeof(llist));
 	new->key = key;
 	new->data = data;
@@ -155,7 +160,7 @@ llist* ll_delete(llist* head, llist* item) {
 }
 
 // Example: llist* item = ll_search(head, key)
-llist* ll_search(llist* head, int key) {
+llist* ll_search(llist* head, unsigned int key) {
 	for(; head!=NULL; head=head->next) {
 		if(head->key == key)
 			return head;
@@ -176,6 +181,6 @@ void ht_delete(llist** table, int size, llist* item) {
 	table[key%size] = ll_delete(table[key%size], item);
 }
 
-llist* ht_search(llist** table, int size, int key) {
+llist* ht_search(llist** table, int size, unsigned int key) {
 	return ll_search(table[key%size], key);
 }
