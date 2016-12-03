@@ -26,7 +26,6 @@ int inPlacePartitioning(int beginIndex, int endIndex) {
 // beginIndex and endIndex are indices not data elements
 void quicksort(int beginIndex, int endIndex) {
 	while(beginIndex < endIndex) {
-
 		int pivot = inPlacePartitioning(beginIndex, endIndex);
 
 		if((pivot - beginIndex) < endIndex - pivot) {

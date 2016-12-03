@@ -25,7 +25,7 @@ char* getFileName() {
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 3;
+	table_size = 2048;
 	list_of_page_size = 0;
 	table = malloc(table_size*sizeof(llist*));
 	numberOfElements = 0;
@@ -87,6 +87,10 @@ void done() {
 		}
 	}
 	
+	// // FOR TESTING IF YOU WISH TO SEE THE SORTED VALUES ** do not free table at start of done()
+	// printSortedValues();
+	// free(table);
+
 	fclose(fp);
 
 	free(list_of_pages);
@@ -97,9 +101,7 @@ void done() {
 	printf("Total number of partitions: %d\n", numberOfPartitions);
 
 	printf("Data of all working set sizes written to file: %s\n", getFileName());
-	// // FOR TESTING IF YOU WISH TO SEE THE SORTED VALUES ** do not free table at start of done()
-	// printSortedValues();
-	// free(table);
+
 }
 
 void printAverageWorkingSet(int* arr, int size) {
