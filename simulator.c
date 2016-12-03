@@ -28,8 +28,23 @@ int get(unsigned int address) {
 
 void done() {
 
-	fprintf(stdout, " === The history of the working set ===\n");
+	printf("data: ");
+	
 
+	fprintf(stdout, "=== The history of the working set ===\n");
+
+	//TEST CODE
+	// list_of_page_size = 7;
+	// list_of_pages = malloc(list_of_page_size*sizeof(int));
+	// list_of_pages[0] = 2;
+	// list_of_pages[1] = 1;
+	// list_of_pages[2] = 2;
+	// list_of_pages[3] = 6;
+	// list_of_pages[4] = 2;
+	// list_of_pages[5] = 4;
+	// list_of_pages[6] = 1;
+
+	// window_size = 3; // expecting 2 3
 	int win_count = 0; // window_size how many calls, needed to partition
 	int* pages_per_curr_win = malloc(window_size*sizeof(int));
 
@@ -58,7 +73,22 @@ void done() {
 	}
 
 	printf("\n");
+	printAverageWorkingSet(diffPagePartitions, numberOfPartitions);
+
+	printf("\n");
 	printSortedValues();
+}
+
+void printAverageWorkingSet(int* arr, int size) {
+	int i;
+	int sum = 0;
+
+	for(i = 0; i < size; i++)
+		sum += arr[i];
+
+	float avg = (float)sum/(float)size;
+	printf("=== Average working set size ===\n");
+	printf("%f\n", avg);
 }
 
 int getNumberOfDifferentPages(int* arr, int size) {
