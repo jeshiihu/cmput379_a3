@@ -1,6 +1,5 @@
 
 #include "simulator.h"
-#include <time.h>
 
 
 void printArray(int* array, int size) {
@@ -76,5 +75,7 @@ int main(int argc, char** argv) {
 	window_size = atoi(argv[2]);
 
 	process();
+	done();
+	
 	return 0;
 }

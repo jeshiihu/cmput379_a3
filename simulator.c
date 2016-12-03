@@ -27,48 +27,79 @@ int get(unsigned int address) {
 void done() {
 	fprintf(stdout, " === The history of the working set ===\n");
 
-// 	//TEST CODE
-// 	list_of_page_size = 6;
-// 	list_of_pages = malloc(list_of_page_size*sizeof(int));
-// 	list_of_pages[0] = 2;
-// 	list_of_pages[1] = 1;
-// 	list_of_pages[2] = 2;
-// 	list_of_pages[3] = 6;
-// 	list_of_pages[4] = 2;
-// 	list_of_pages[5] = 4;
+	//TEST CODE
+	list_of_page_size = 7;
+	list_of_pages = malloc(list_of_page_size*sizeof(int));
+	list_of_pages[0] = 2;
+	list_of_pages[1] = 1;
+	list_of_pages[2] = 2;
+	list_of_pages[3] = 6;
+	list_of_pages[4] = 2;
+	list_of_pages[5] = 4;
+	list_of_pages[6] = 1;
 
+	window_size = 3; // expecting 2 3
+	int win_count = 0; // window_size how many calls, needed to partition
+	int* pages_per_curr_win = malloc(window_size*sizeof(int));
 
-// 	int i, win_size_counter = 0;
-// 	fprintf(stdout, "Total number of working sets: %d\n", list_of_page_size);
+	int numberOfPartitions = (list_of_page_size + window_size - 1)/window_size;
+	int numberOfPartitions_counter = 0;
+	int* diffPagePartitions = malloc(numberOfPartitions*sizeof(int));
 
-// 	// create an array of ints that is equal to the window size
-// 	int* page_set = malloc(window_size*sizeof(int));
+	int i;
+	for(i = 0; i < list_of_page_size; i++) { // iterate through all 
+		
+		pages_per_curr_win[win_count] = list_of_pages[i];
+		win_count++;
 
-// 	// the total amount of data
-// 	int size_of_data = list_of_page_size/window_size;
-// 	int* final_data = malloc(size_of_data*sizeof(int));
+		if(win_count == window_size || i == list_of_page_size-1) { //filled the set completely! 
+			int numOfDifferentPages = getNumberOfDifferentPages(pages_per_curr_win, win_count);
+			
+			diffPagePartitions[numberOfPartitions_counter] = numOfDifferentPages;
+			numberOfPartitions_counter++;
 
-// 	// loop through all the history pages, and prints out the working set
-// 	for(i = 0; i < list_of_page_size; i++) {
-// 		fprintf(stdout, "Page number: %d\n", list_of_pages[i]);
+			win_count = 0; // reset it
+		}
+	}
 
-// 		// add to the page set
-// 		page_set[win_size_counter] = list_of_pages[i];
-// 		win_size_counter++;
+	for(i = 0; i < numberOfPartitions; i++) {
+		printf("%d\n", diffPagePartitions[i]);
+	}
 
-// 		if(win_size_counter == window_size) {
-// 			int numDiffPages = getNumberOfDiffPagesAccessed(page_set, win_size_counter);
-// 			final_data = 0; // reset the counter
-// 		}
-// 	}
+	printf("\n");
+	printSortedValues();
+}
 
+int getNumberOfDifferentPages(int* arr, int size) {
+	if(size <= 0)
+		return 0;
 
-// 	// fprintf(stdout, "total: %d size: %d\n", final_data, list_of_page_size);
-// 	// float avg = (float)total/(float)list_of_page_size; // bumps it down always no matter what
-// 	// fprintf(stdout, "\nAverage Working Set Size: %f\n", avg);
+	int numOfDiff = 1;
+	int* diff_arr = malloc(numOfDiff*sizeof(int));
+	// we made arr with size window_size, so should be safe to insert 0
+	diff_arr[0] = arr[0];
+
+	int i, j;
+	for(i = 1; i < size; i++) {
+
+		int duplicate = 0; // zero is bool FALSE
+		for(j = 0; j < numOfDiff; j++) {
+			if(arr[i] == diff_arr[j]) // duplicate page, don't add to diff_arr
+				duplicate = 1; // 1 is bool TRUE
+		}
+
+		if(duplicate == 0) {// this is unique add it to the diff_arr 
+			numOfDiff++;
+			diff_arr = realloc(diff_arr, numOfDiff*sizeof(int));
+			diff_arr[numOfDiff-1] = arr[i];
+		}
+	}
+
+	return numOfDiff;
 }
 
 void printSortedValues() {
+	printf("== Printing sorted values ==\n");
 	int i;
 	for(i = 0; i < numberOfElements; i++) {
 		int val = get(i);

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <strings.h>
+#include <time.h>
+
 // hashtbale, address is key and value
 
 // working set: number of unique pages 
@@ -49,7 +51,7 @@ int* list_of_pages;
 int list_of_page_size;
 
 void addToHistory(unsigned int address);
-void printSortedValues()
+void printSortedValues();
 
 void init(int psize, int winsize);
 void put(unsigned int address, int value);
