@@ -63,7 +63,7 @@ void process() {
 	/* keys and sorts them using bubblesort. */
 	unsigned int N, i;
 	printf("Please input the number of elements you wish to sort: ");
-	scanf ("%d", &N);
+	scanf ("%u", &N);
 	numberOfElements = N;
 	printf ("Sorting %u keys\n", N);
 
