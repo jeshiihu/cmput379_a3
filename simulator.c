@@ -3,7 +3,7 @@
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 3;
+	table_size = 2048;
 	list_of_page_size = 0;
 	table = malloc(table_size*sizeof(llist*));
 	numberOfElements = 0;
@@ -25,29 +25,15 @@ int get(unsigned int address) {
 }
 
 void done() {
-	printf("data: ");
-	
-
+	free(table); // don't need it anymore so clean it up
 	fprintf(stdout, "=== The history of the working set ===\n");
 
-	//TEST CODE
-	// list_of_page_size = 7;
-	// list_of_pages = malloc(list_of_page_size*sizeof(int));
-	// list_of_pages[0] = 2;
-	// list_of_pages[1] = 1;
-	// list_of_pages[2] = 2;
-	// list_of_pages[3] = 6;
-	// list_of_pages[4] = 2;
-	// list_of_pages[5] = 4;
-	// list_of_pages[6] = 1;
-
-	// window_size = 3; // expecting 2 3
 	int win_count = 0; // window_size how many calls, needed to partition
 	int* pages_per_curr_win = malloc(window_size*sizeof(int));
 
 	int numberOfPartitions = (list_of_page_size + window_size - 1)/window_size;
 	int numberOfPartitions_counter = 0;
-	int* diffPagePartitions = malloc(numberOfPartitions*sizeof(int));
+	int totalSum = 0;
 
 	int i;
 	for(i = 0; i < list_of_page_size; i++) { // iterate through all 
@@ -57,23 +43,18 @@ void done() {
 
 		if(win_count == window_size || i == list_of_page_size-1) { //filled the set completely! 
 			int numOfDifferentPages = getNumberOfDifferentPages(pages_per_curr_win, win_count);
-			
-			diffPagePartitions[numberOfPartitions_counter] = numOfDifferentPages;
+			printf("%d\n", numOfDifferentPages);
+			totalSum += numOfDifferentPages;			
 			numberOfPartitions_counter++;
-
 			win_count = 0; // reset it
 		}
 	}
+	
+	free(list_of_pages);
+	free(pages_per_curr_win);
 
-	for(i = 0; i < numberOfPartitions; i++) {
-		printf("%d\n", diffPagePartitions[i]);
-	}
-
-	printf("\n");
-	printAverageWorkingSet(diffPagePartitions, numberOfPartitions);
-
-	printf("\n");
-	printSortedValues();
+	float avg = (float)totalSum/(float)numberOfPartitions;
+	printf("TotalAvg: %f\n", avg);
 }
 
 void printAverageWorkingSet(int* arr, int size) {
@@ -113,6 +94,7 @@ int getNumberOfDifferentPages(int* arr, int size) {
 		}
 	}
 
+	free(diff_arr);
 	return numOfDiff;
 }
 

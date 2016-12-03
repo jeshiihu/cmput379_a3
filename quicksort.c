@@ -46,7 +46,7 @@ void process() {
 	while(numberOfElements <= 0)
 		scanf("%d", &numberOfElements);
 
-	printf("Sorting %d values\n", table_size);
+	printf("Sorting %d values\n", numberOfElements);
 
 	// generate random values
 	unsigned int i;
