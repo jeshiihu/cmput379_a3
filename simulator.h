@@ -51,6 +51,7 @@ int* list_of_pages;
 int list_of_page_size;
 
 void addToHistory(unsigned int address);
+int getNumberOfDifferentPages(int* arr, int size);
 void printSortedValues();
 void printAverageWorkingSet(int* arr, int size);
 

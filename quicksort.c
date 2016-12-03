@@ -1,27 +1,17 @@
 
 #include "simulator.h"
 
-
-void printArray(int* array, int size) {
-	int i;
-	for(i = 0; i < size; i++) {
-		printf("%d ", array[i]);
-	}
-
-	printf("\n");
-}
-
-void swap(int index1, int index2) {
+void swap(unsigned int index1, unsigned int index2) {
 	int tmpVal = get(index1);
 	put(index1, get(index2));
 	put(index2, tmpVal);
 }
 
-int inPlacePartitioning(int beginIndex, int endIndex) {
+int inPlacePartitioning(unsigned int beginIndex, unsigned int endIndex) {
 	int pivot = get(endIndex); // getting pivot element
-	int smallerIndex = beginIndex;
+	unsigned int smallerIndex = beginIndex;
 
-	int leftIndex = beginIndex;
+	unsigned int leftIndex = beginIndex;
 	while(leftIndex < endIndex) {
 		for(; leftIndex < endIndex; leftIndex++) {
 			if(get(leftIndex) <= pivot) {
@@ -37,7 +27,7 @@ int inPlacePartitioning(int beginIndex, int endIndex) {
 }
 
 // beginIndex and endIndex are indices not data elements
-void quicksort(int beginIndex, int endIndex) {
+void quicksort(unsigned int beginIndex, unsigned int endIndex) {
 	int pivot = inPlacePartitioning(beginIndex, endIndex);
 
 	if(beginIndex < pivot - 1)
@@ -59,14 +49,14 @@ void process() {
 	printf("Sorting %d values\n", table_size);
 
 	// generate random values
-	int i;
+	unsigned int i;
 	srand(time(NULL));
 
 	for(i = 0; i < numberOfElements; i++) {
 		put(i, rand());
 	}
 
-	quicksort(0, numberOfElements-1);
+	quicksort((unsigned int)0, (unsigned int)(numberOfElements-1));
 }
 
 int main(int argc, char** argv) {
