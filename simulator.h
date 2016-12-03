@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <strings.h>
 #include <time.h>
+#include <string.h>
 
 // hashtbale, address is key and value
 

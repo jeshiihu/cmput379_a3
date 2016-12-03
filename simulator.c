@@ -1,13 +1,39 @@
 #include "simulator.h" 
 
+char* concat(const char* s1, const char* s2) {
+	char* newString = malloc(strlen(s1)+strlen(s2)+1);
+	strcpy(newString, s1);
+	strcat(newString, s2);
+
+	return newString;
+}
+
+char* getFileName() {
+	char* filename = "data";
+
+	char buf[10];
+	snprintf(buf, 10, "%d", page_size);
+	filename = concat(filename, buf);
+	filename = concat(filename, "_");
+	snprintf(buf, 10, "%d", window_size);
+	filename = concat(filename, buf);
+	filename = concat(filename, ".csv");
+
+	return filename;
+}
+
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 2048;
+	table_size = 3;
 	list_of_page_size = 0;
 	table = malloc(table_size*sizeof(llist*));
 	numberOfElements = 0;
 	list_of_pages = malloc(1*sizeof(int));
+
+	FILE* fp = fopen(getFileName(),"w+");
+	fprintf(fp, "Working Set Size, , Average"); // write the page to file
+	fclose(fp);
 }
 
 void put(unsigned int address, int value) {
@@ -43,6 +69,8 @@ void done() {
 	int totalSum = 0;
 
 	int i;
+	FILE* fp = fopen(getFileName(),"a+");
+
 	for(i = 0; i < list_of_page_size; i++) { // iterate through all 
 		
 		pages_per_curr_win[win_count] = list_of_pages[i];
@@ -54,14 +82,24 @@ void done() {
 			totalSum += numOfDifferentPages;			
 			numberOfPartitions_counter++;
 			win_count = 0; // reset it
+
+			fprintf(fp, "\n%d", numOfDifferentPages); // write the page to file
 		}
 	}
 	
+	fclose(fp);
+
 	free(list_of_pages);
 	free(pages_per_curr_win);
 
 	float avg = (float)totalSum/(float)numberOfPartitions;
 	printf("TotalAvg: %f\n", avg);
+	printf("Total number of partitions: %d\n", numberOfPartitions);
+
+	printf("Data of all working set sizes written to file: %s\n", getFileName());
+	// // FOR TESTING IF YOU WISH TO SEE THE SORTED VALUES ** do not free table at start of done()
+	// printSortedValues();
+	// free(table);
 }
 
 void printAverageWorkingSet(int* arr, int size) {
