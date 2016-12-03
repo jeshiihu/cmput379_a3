@@ -3,20 +3,32 @@
 #include <stdio.h>
 #include <time.h>
  
-int max (unsigned int n, unsigned int i, unsigned int j, unsigned int k) {
+unsigned int max (unsigned int n, unsigned int i, unsigned int j, unsigned int k) {
     unsigned int m = i;
+    printf("max loop\n");
+    printf("compare j: %d to m: %d \n", j, m);
+
+    printf("compare j: %d: %d to m: %d: %d \n", j, get(j), m, get(m));
     if (j < n && get(j) > get(m)) {
+    	printf("here3\n");
         m = j;
     }
+    printf("compare k: %d to m: %d \n", k, m);
+
+    printf("compare k: %d: %d to m: %d: %d \n", k, get(k), m, get(m));
     if (k < n && get(k) > get(m)) {
+    	printf("here2\n");
         m = k;
     }
+    printf("here4\n");
     return m;
 }
  
 void downheap (unsigned int n, unsigned int i) {
     while (1) {
+    	printf("here\n");
         unsigned int j = max(n, i, 2 * i + 1, 2 * i + 2);
+        printf("here1\n");
         if (j == i) {
             break;
         }
@@ -24,13 +36,12 @@ void downheap (unsigned int n, unsigned int i) {
         put(i, get(j));
         put(j,t);
         i = j;
-        printf ("Sorting %1d keys\n", n);
     }
 }
  
 void heapsort (unsigned int n) {
 
-    unsigned int i;
+    unsigned int i = 0;
 
     for (i = (n - 2) / 2; i >= 0; i--) {
         downheap(n, i);
@@ -56,11 +67,16 @@ void process() {
 
 	// init(page_size, window_size);
 	/* Generate the sorting problem (just random numbers) */
-	for (i = 0; i < N; i++) {
-		put(i, lrand48 ());
-	}
+	// for (i = 0; i < N; i++) {
+	// 	put(i, lrand48 ());
+	// }
+	put(0, 4);
+	put(1, 10);
+	put(2, 3);
+	put(3, 5);
+	put(4, 1);
 
-	heapsort(N);
+	heapsort(5);
 
 		printf ("Sorting %1d keys\n", N);
 
