@@ -146,27 +146,41 @@ int getNumberOfDifferentPages(int* arr, int size) {
 		return 0;
 
 	int numOfDiff = 1;
-	int* diff_arr = malloc(numOfDiff*sizeof(int));
-	// we made arr with size window_size, so should be safe to insert 0
-	diff_arr[0] = arr[0];
+	// int* diff_arr = malloc(numOfDiff*sizeof(int));
+	// // we made arr with size window_size, so should be safe to insert 0
+	// diff_arr[0] = arr[0];
 
-	int i, j;
+	// int i, j;
+	// for(i = 1; i < size; i++) {
+
+	// 	int duplicate = 0; // zero is bool FALSE
+	// 	for(j = 0; j < numOfDiff; j++) {
+	// 		if(arr[i] == diff_arr[j]) // duplicate page, don't add to diff_arr
+	// 			duplicate = 1; // 1 is bool TRUE
+	// 	}
+
+	// 	if(duplicate == 0) {// this is unique add it to the diff_arr 
+	// 		numOfDiff++;
+	// 		diff_arr = realloc(diff_arr, numOfDiff*sizeof(int));
+	// 		diff_arr[numOfDiff-1] = arr[i];
+	// 	}s
+	// }
+
+	// free(diff_arr);
+
+	llist** unique_pages = malloc(size*sizeof(llist*));
+	llist* head = ll_new(arr[0], 0); // the value doesn't matter
+	ht_insert(unique_pages, size, head);
+
+	int i;
 	for(i = 1; i < size; i++) {
-
-		int duplicate = 0; // zero is bool FALSE
-		for(j = 0; j < numOfDiff; j++) {
-			if(arr[i] == diff_arr[j]) // duplicate page, don't add to diff_arr
-				duplicate = 1; // 1 is bool TRUE
-		}
-
-		if(duplicate == 0) {// this is unique add it to the diff_arr 
+		if(ht_search(unique_pages, size, arr[i]) == NULL) { // not in hash
+			llist* new = ll_new(arr[i], 0); // the value doesn't matter
+			ht_insert(unique_pages, size, new);
 			numOfDiff++;
-			diff_arr = realloc(diff_arr, numOfDiff*sizeof(int));
-			diff_arr[numOfDiff-1] = arr[i];
 		}
 	}
 
-	free(diff_arr);
 	return numOfDiff;
 }
 

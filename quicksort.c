@@ -1,15 +1,15 @@
 
 #include "simulator.h"
 
-void swap(int index1, int index2) {
+void swap(unsigned int index1, unsigned int index2) {
 	int tmp = get(index1);
 	put(index1, get(index2));
 	put(index2, tmp);
 }
 
-int inPlacePartitioning(int beginIndex, int endIndex) {
+int inPlacePartitioning(unsigned int beginIndex, unsigned int endIndex) {
 	int pivot = get(endIndex); // getting pivot element
-	int i = beginIndex;
+	unsigned int i = beginIndex;
 
 	int j;
 	for(j = beginIndex; j <= endIndex-1; j++) {
@@ -24,9 +24,9 @@ int inPlacePartitioning(int beginIndex, int endIndex) {
 }
 
 // beginIndex and endIndex are indices not data elements
-void quicksort(int beginIndex, int endIndex) {
+void quicksort(unsigned int beginIndex, unsigned int endIndex) {
 	while(beginIndex < endIndex) {
-		int pivot = inPlacePartitioning(beginIndex, endIndex);
+		unsigned int pivot = inPlacePartitioning(beginIndex, endIndex);
 
 		if((pivot - beginIndex) < endIndex - pivot) {
 			quicksort(beginIndex, pivot-1);
