@@ -34,15 +34,10 @@ void downheap (unsigned int n, unsigned int i) {
  
 void heapsort (unsigned int n) {
 
-    int i;
-    unsigned int negative = -1;
+    unsigned int i;
 
-    for (i = (n - 2) / 2; (i >= 0); i--) {
-    	//printf("my i as int: %d my i as uint %u \n",i,-2 );
-    	//4294967295
-    	// if (i >= negative) {
-    	// 	printf("negative i: %u\n", i);
-    	// }
+    for (i = (n - 2) / 2; (int)i >= 0; i--) {
+
         downheap(n, i);
     }
     for (i = 0; i < n; i++) {
