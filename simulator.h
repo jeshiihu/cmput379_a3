@@ -27,7 +27,7 @@
 
 struct linked_list {
 	unsigned int key;
-	double data;
+	int data;
 	struct linked_list* next; // left
 	struct linked_list* previous; //right
 };
@@ -52,6 +52,7 @@ unsigned int numberOfElements;
 llist** table;
 int* list_of_pages;
 int list_of_page_size;
+int flag_print_working_sets;
 
 void addToHistory(unsigned int address);
 int getNumberOfDifferentPages(int* arr, int size);

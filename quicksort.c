@@ -2,7 +2,7 @@
 #include "simulator.h"
 
 void swap(int index1, int index2) {
-	double tmp = get(index1);
+	int tmp = get(index1);
 	put(index1, get(index2));
 	put(index2, tmp);
 }
@@ -56,7 +56,7 @@ void process() {
 	srand(time(NULL));
 
 	for(i = 0; i < numberOfElements; i++) {
-		put(i, rand());
+		put(i, lrand48());
 	}
 
 	// numberOfElements = 10;

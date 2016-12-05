@@ -25,8 +25,10 @@ char* getFileName() {
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 2048;
+	table_size = 33554432;
 	list_of_page_size = 0;
+	flag_print_working_sets = 0; //set to "false"
+
 	table = malloc(table_size*sizeof(llist*));
 	numberOfElements = 0;
 	list_of_pages = malloc(1*sizeof(int));
@@ -61,6 +63,25 @@ void done() {
 	free(table); // don't need it anymore so clean it up
 	fprintf(stdout, "=== The history of the working set ===\n");
 
+	fprintf(stdout, "Would you like to print out the working set sizes? [y/n]\n");
+	
+	char* ans = malloc(10*sizeof(char));
+	
+	while(1) {
+		scanf("%s", ans);
+
+		if (strcmp(ans, "y") == 0) {
+			flag_print_working_sets = 1;
+			break;
+		}
+		else if(strcmp(ans, "n") == 0){
+			flag_print_working_sets = 0;
+			break;
+		}
+		else
+			fprintf(stdout, "Invalid answer, please try again!\n");
+	}
+
 	int win_count = 0; // window_size how many calls, needed to partition
 	int* pages_per_curr_win = malloc(window_size*sizeof(int));
 
@@ -78,7 +99,10 @@ void done() {
 
 		if(win_count == window_size || i == list_of_page_size-1) { //filled the set completely! 
 			int numOfDifferentPages = getNumberOfDifferentPages(pages_per_curr_win, win_count);
-			printf("%d\n", numOfDifferentPages);
+			
+			if(flag_print_working_sets)
+				printf("%d\n", numOfDifferentPages);
+
 			totalSum += numOfDifferentPages;			
 			numberOfPartitions_counter++;
 			win_count = 0; // reset it
