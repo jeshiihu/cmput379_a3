@@ -91,6 +91,20 @@ void done() {
 			fprintf(stdout, "Invalid answer, please try again!\n");
 	}
 
+	// list_of_page_size = 10;
+	// window_size = 3;
+	// list_of_pages = malloc(10*sizeof(int));
+	// list_of_pages[0] = 2;
+	// list_of_pages[1] = 2;
+	// list_of_pages[2] = 2;
+	// list_of_pages[3] = 2;
+	// list_of_pages[4] = 1;
+	// list_of_pages[5] = 3;
+	// list_of_pages[6] = 2;
+	// list_of_pages[7] = 2;
+	// list_of_pages[8] = 9;
+	// list_of_pages[9] = 10;
+
 	int win_count = 0; // window_size how many calls, needed to partition
 	int* pages_per_curr_win = malloc(window_size*sizeof(int));
 
@@ -155,54 +169,18 @@ int getNumberOfDifferentPages(int* arr, int size) {
 		return 0;
 
 	int numOfDiff = 1;
-	// int* diff_arr = malloc(numOfDiff*sizeof(int));
-	// // we made arr with size window_size, so should be safe to insert 0
-	// diff_arr[0] = arr[0];
-
-	// int i, j;
-	// for(i = 1; i < size; i++) {
-
-	// 	int duplicate = 0; // zero is bool FALSE
-	// 	for(j = 0; j < numOfDiff; j++) {
-	// 		if(arr[i] == diff_arr[j]) // duplicate page, don't add to diff_arr
-	// 			duplicate = 1; // 1 is bool TRUE
-	// 	}
-
-	// 	if(duplicate == 0) {// this is unique add it to the diff_arr 
-	// 		numOfDiff++;
-	// 		diff_arr = realloc(diff_arr, numOfDiff*sizeof(int));
-	// 		diff_arr[numOfDiff-1] = arr[i];
-	// 	}s
-	// }
-
-	// free(diff_arr);
-
 	llist** unique_pages = calloc(size, sizeof(llist*));
-
-	unique_pages[0] = ll_new((unsigned int)arr[0], 0);
-	// printf("Adding head to unique: key is %d\n", (unsigned int)arr[0]);
-	// ht_insert(unique_pages, size, newItem);
-	// printf("successfully added head!\n");
-
-	// llist* head = ll_new(arr[0], 0); // the value doesn't matter
-	// printf("Head: %d\n", arr[0]);
-	// printf("Key: %d data: %d prev: %p next: %p\n", head->key, head->data, head->previous, head->next);
-	// printf("Unique Pages: %p, size: %d, head: %p\n", unique_pages, size, head);
-	// ht_insert(unique_pages, size, head);
+	llist* newItem = ll_new((unsigned int)arr[0], 0);
+	ht_insert(unique_pages, size, newItem);
 
 	int i;
 	for(i = 1; i < size; i++) {
-		// printf("Starting other inserts\n");
 		if(ht_search(unique_pages, size, (unsigned int)arr[i]) == NULL) { // not in hash
-			// printf("ADDING NEW\n");
 			llist* new = ll_new((unsigned int)arr[i], 0); // the value doesn't matter
-			// printf("new: %d\n", arr[i]);
 			ht_insert(unique_pages, size, new);
 			numOfDiff++;
 		}
 	}
-
-	// printf("DONE\n");
 
 	freeHashTable(unique_pages, size);
 	return numOfDiff;
