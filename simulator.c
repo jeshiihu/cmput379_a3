@@ -25,11 +25,11 @@ char* getFileName() {
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 33554432;
+	table_size = 1048576; // 2^20
 	list_of_page_size = 0;
 	flag_print_working_sets = 0; //set to "false"
 
-	table = malloc(table_size*sizeof(llist*));
+	table = calloc(table_size, sizeof(llist*));
 	numberOfElements = 0;
 	list_of_pages = malloc(1*sizeof(int));
 
@@ -122,7 +122,7 @@ void done() {
 	
 	// // FOR TESTING IF YOU WISH TO SEE THE SORTED VALUES ** do not free table at start of done()
 	// printSortedValues();
-	// free(table);
+	// freeHashTable(table,table_size);
 
 	fclose(fp);
 
@@ -177,12 +177,12 @@ int getNumberOfDifferentPages(int* arr, int size) {
 
 	// free(diff_arr);
 
-	llist** unique_pages = malloc(size*sizeof(llist*));
+	llist** unique_pages = calloc(size, sizeof(llist*));
 
 	unique_pages[0] = ll_new((unsigned int)arr[0], 0);
 	// printf("Adding head to unique: key is %d\n", (unsigned int)arr[0]);
 	// ht_insert(unique_pages, size, newItem);
-	printf("successfully added head!\n");
+	// printf("successfully added head!\n");
 
 	// llist* head = ll_new(arr[0], 0); // the value doesn't matter
 	// printf("Head: %d\n", arr[0]);
@@ -192,9 +192,9 @@ int getNumberOfDifferentPages(int* arr, int size) {
 
 	int i;
 	for(i = 1; i < size; i++) {
-		printf("Starting other inserts\n");
+		// printf("Starting other inserts\n");
 		if(ht_search(unique_pages, size, (unsigned int)arr[i]) == NULL) { // not in hash
-			printf("ADDING NEW\n");
+			// printf("ADDING NEW\n");
 			llist* new = ll_new((unsigned int)arr[i], 0); // the value doesn't matter
 			// printf("new: %d\n", arr[i]);
 			ht_insert(unique_pages, size, new);
@@ -202,7 +202,7 @@ int getNumberOfDifferentPages(int* arr, int size) {
 		}
 	}
 
-	printf("DONE\n");
+	// printf("DONE\n");
 
 	freeHashTable(unique_pages, size);
 	return numOfDiff;
@@ -267,7 +267,7 @@ llist* ll_delete(llist* head, llist* item) {
 // Example: llist* item = ll_search(head, key)
 llist* ll_search(llist* head, unsigned int key) {
 	for(; head!=NULL; head=head->next) {
-		printf("STUCK\n");
+		// printf("STUCK\n");
 		if(head->key == key)
 			return head;
 	}
