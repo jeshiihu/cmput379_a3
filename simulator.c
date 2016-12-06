@@ -125,7 +125,7 @@ void done() {
 	printf("Total number of partitions: %d\n", numberOfPartitions);
 
 	printf("Data of all working set sizes written to file: %s\n", getFileName());
-	printf("  To find avg please use function =AVG(A2:A%d)\n", numberOfPartitions+1);
+	printf("  To find avg please use function =AVERAGE(A2:A%d)\n", numberOfPartitions+1);
 
 }
 
@@ -169,13 +169,22 @@ int getNumberOfDifferentPages(int* arr, int size) {
 	// free(diff_arr);
 
 	llist** unique_pages = malloc(size*sizeof(llist*));
-	llist* head = ll_new(arr[0], 0); // the value doesn't matter
-	ht_insert(unique_pages, size, head);
+
+	llist* newItem = ll_new(arr[0], 0);
+	ht_insert(unique_pages, size, newItem);
+
+	// llist* head = ll_new(arr[0], 0); // the value doesn't matter
+	// printf("Head: %d\n", arr[0]);
+	// printf("Key: %d data: %d prev: %p next: %p\n", head->key, head->data, head->previous, head->next);
+	// printf("Unique Pages: %p, size: %d, head: %p\n", unique_pages, size, head);
+	// ht_insert(unique_pages, size, head);
 
 	int i;
 	for(i = 1; i < size; i++) {
+		// printf("Starting other inserts\n");
 		if(ht_search(unique_pages, size, arr[i]) == NULL) { // not in hash
 			llist* new = ll_new(arr[i], 0); // the value doesn't matter
+			// printf("new: %d\n", arr[i]);
 			ht_insert(unique_pages, size, new);
 			numOfDiff++;
 		}
