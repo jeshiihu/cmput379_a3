@@ -59,8 +59,17 @@ int get(unsigned int address) {
 	return foundLlist->data;
 }
 
+void freeHashTable(llist** table, int size) {
+	int i;
+	for(i = 0; i < size; i++) {
+		free(table[i]);
+	}
+
+	free(table);
+}
+
 void done() {
-	free(table); // don't need it anymore so clean it up
+	freeHashTable(table, table_size); // don't need it anymore so clean it up
 	fprintf(stdout, "=== The history of the working set ===\n");
 
 	fprintf(stdout, "Would you like to print out the working set sizes? [y/n]\n");
@@ -170,8 +179,10 @@ int getNumberOfDifferentPages(int* arr, int size) {
 
 	llist** unique_pages = malloc(size*sizeof(llist*));
 
-	llist* newItem = ll_new(arr[0], 0);
-	ht_insert(unique_pages, size, newItem);
+	unique_pages[0] = ll_new((unsigned int)arr[0], 0);
+	// printf("Adding head to unique: key is %d\n", (unsigned int)arr[0]);
+	// ht_insert(unique_pages, size, newItem);
+	printf("successfully added head!\n");
 
 	// llist* head = ll_new(arr[0], 0); // the value doesn't matter
 	// printf("Head: %d\n", arr[0]);
@@ -181,15 +192,19 @@ int getNumberOfDifferentPages(int* arr, int size) {
 
 	int i;
 	for(i = 1; i < size; i++) {
-		// printf("Starting other inserts\n");
-		if(ht_search(unique_pages, size, arr[i]) == NULL) { // not in hash
-			llist* new = ll_new(arr[i], 0); // the value doesn't matter
+		printf("Starting other inserts\n");
+		if(ht_search(unique_pages, size, (unsigned int)arr[i]) == NULL) { // not in hash
+			printf("ADDING NEW\n");
+			llist* new = ll_new((unsigned int)arr[i], 0); // the value doesn't matter
 			// printf("new: %d\n", arr[i]);
 			ht_insert(unique_pages, size, new);
 			numOfDiff++;
 		}
 	}
 
+	printf("DONE\n");
+
+	freeHashTable(unique_pages, size);
 	return numOfDiff;
 }
 
@@ -228,8 +243,10 @@ llist* ll_new(unsigned int key, double data) {
 // Example: head = ll_insert(head, new);
 llist* ll_insert(llist* head, llist* new) {
 	new->next = head;
-	if(head != NULL)
+	if(head != NULL) {
+		// printf("head: %p, prev: %d\n", head, head->key);
 		head->previous = new;
+	}
 	head = new;
 	
 	return head;
@@ -250,6 +267,7 @@ llist* ll_delete(llist* head, llist* item) {
 // Example: llist* item = ll_search(head, key)
 llist* ll_search(llist* head, unsigned int key) {
 	for(; head!=NULL; head=head->next) {
+		printf("STUCK\n");
 		if(head->key == key)
 			return head;
 	}
