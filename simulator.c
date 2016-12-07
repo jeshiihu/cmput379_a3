@@ -39,7 +39,6 @@ void init(int psize, int winsize) {
 	flag_print_working_sets = 0; //set to "false"
 
 	table = calloc(table_size, sizeof(llist*));
-	numberOfElements = 0;
 	list_of_pages = malloc(1*sizeof(int));
 
 	FILE* fp = fopen(getFileName(),"w+");
