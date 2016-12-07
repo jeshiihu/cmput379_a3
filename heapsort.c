@@ -1,5 +1,6 @@
 #include "simulator.h"
- 
+
+//finds address of the node with highest value between node node i, and it's children j and k
 unsigned int max (unsigned int n, unsigned int i, unsigned int j, unsigned int k) {
     unsigned int m = i;
     if (j > n) {
@@ -18,7 +19,8 @@ unsigned int max (unsigned int n, unsigned int i, unsigned int j, unsigned int k
     }
     return m;
 }
- 
+
+//swaps address of node i and one of it's children nodes if one of them has higher value
 void downheap (unsigned int n, unsigned int i) {
     while (1) {
         unsigned int j = max(n, i, 2 * i + 1, 2 * i + 2);
@@ -31,7 +33,10 @@ void downheap (unsigned int n, unsigned int i) {
         i = j;
     }
 }
- 
+
+//main heapsort function that calls downheap
+//calls downheap until it is at the end of array
+//then replace the top or highest node with last node and then downheap
 void heapsort (unsigned int n) {
 
     unsigned int i;
@@ -48,6 +53,7 @@ void heapsort (unsigned int n) {
     }
 }
  
+ //process function that takes in inputs and call heapsort
 void process() {
 	srand (time(NULL));
 	printf("HEAPSORT\n");
@@ -72,6 +78,7 @@ void process() {
 	heapsort(N);
 }
 
+//reads arguments, calls process, then done function
 int main(int argc, char** argv) {
 	page_size = atoi(argv[1]);
 	window_size = atoi(argv[2]);

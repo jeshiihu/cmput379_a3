@@ -25,7 +25,7 @@
 
 // i/page_size = page
 
-
+//link list struct
 struct linked_list {
 	unsigned int key;
 	int data;
@@ -55,11 +55,13 @@ int* list_of_pages;
 int list_of_page_size;
 int flag_print_working_sets;
 
+//define helper functions
 void addToHistory(unsigned int address);
 int getNumberOfDifferentPages(int* arr, int size);
 void printSortedValues();
 void printAverageWorkingSet(int* arr, int size);
 
+//define simulator functions
 void init(int psize, int winsize);
 void put(unsigned int address, int value);
 int get(unsigned int address);

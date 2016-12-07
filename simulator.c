@@ -1,6 +1,6 @@
 #include "simulator.h" 
 
-
+//concats strings
 char* concat(const char* s1, const char* s2) {
 	char* newString = malloc(strlen(s1)+strlen(s2)+1);
 	strcpy(newString, s1);
@@ -9,6 +9,7 @@ char* concat(const char* s1, const char* s2) {
 	return newString;
 }
 
+//get file name with concat
 char* getFileName() {
 	char* filename = "data";
 
@@ -23,21 +24,24 @@ char* getFileName() {
 	return filename;
 }
 
+//initialize global variables
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
 
+	//find optimal table size
 	double powLog;
 	powLog = log(numberOfElements/3)/log(2);
 	if (powLog < 0) {
 		powLog = 0;
 	}
 	int powInt = (int)powLog;
+	table_size = (int)pow(2,powInt);
 
-	table_size = (int)pow(2,powInt); // 2^20
 	list_of_page_size = 0;
 	flag_print_working_sets = 0; //set to "false"
 
+	//allocates memery needed and zeros memory
 	table = calloc(table_size, sizeof(llist*));
 	list_of_pages = malloc(1*sizeof(int));
 
@@ -46,6 +50,7 @@ void init(int psize, int winsize) {
 	fclose(fp);
 }
 
+//puts a value into the hashtable with address as key
 void put(unsigned int address, int value) {
 	llist* foundLlist = ht_search(table, table_size, address);
 	
@@ -60,6 +65,7 @@ void put(unsigned int address, int value) {
 	addToHistory(address);
 }
 
+//gets value from address with key address
 int get(unsigned int address) {
 	llist* foundLlist = ht_search(table, table_size, address);
 
@@ -67,6 +73,7 @@ int get(unsigned int address) {
 	return foundLlist->data;
 }
 
+//deallocates memory from hashtable
 void freeHashTable(llist** table, int size) {
 	int i;
 	for(i = 0; i < size; i++) {
@@ -76,6 +83,7 @@ void freeHashTable(llist** table, int size) {
 	free(table);
 }
 
+//sets a print flag if want to print working set sizes
 void done() {
 	freeHashTable(table, table_size); // don't need it anymore so clean it up
 	fprintf(stdout, "=== The history of the working set ===\n");
@@ -98,20 +106,6 @@ void done() {
 		else
 			fprintf(stdout, "Invalid answer, please try again!\n");
 	}
-
-	// list_of_page_size = 10;
-	// window_size = 3;
-	// list_of_pages = malloc(10*sizeof(int));
-	// list_of_pages[0] = 2;
-	// list_of_pages[1] = 2;
-	// list_of_pages[2] = 2;
-	// list_of_pages[3] = 2;
-	// list_of_pages[4] = 1;
-	// list_of_pages[5] = 3;
-	// list_of_pages[6] = 2;
-	// list_of_pages[7] = 2;
-	// list_of_pages[8] = 9;
-	// list_of_pages[9] = 10;
 
 	int win_count = 0; // window_size how many calls, needed to partition
 	int* pages_per_curr_win = malloc(window_size*sizeof(int));
@@ -160,6 +154,7 @@ void done() {
 
 }
 
+//print average working set
 void printAverageWorkingSet(int* arr, int size) {
 	int i;
 	int sum = 0;
@@ -172,6 +167,7 @@ void printAverageWorkingSet(int* arr, int size) {
 	printf("%f\n", avg);
 }
 
+//get number of different pages
 int getNumberOfDifferentPages(int* arr, int size) {
 	if(size <= 0)
 		return 0;
@@ -194,6 +190,7 @@ int getNumberOfDifferentPages(int* arr, int size) {
 	return numOfDiff;
 }
 
+//prints all values
 void printSortedValues() {
 	printf("== Printing sorted values ==\n");
 	int i;
@@ -216,6 +213,7 @@ void addToHistory(unsigned int address) {
 
 
 // ======================= linked list functions to be used by hash table =======================
+//initialize new link list
 llist* ll_new(unsigned int key, double data) {
 	llist* new = malloc(sizeof(llist));
 	new->key = key;
@@ -227,6 +225,7 @@ llist* ll_new(unsigned int key, double data) {
 }
 
 // Example: head = ll_insert(head, new);
+//insert into link list
 llist* ll_insert(llist* head, llist* new) {
 	new->next = head;
 	if(head != NULL) {
@@ -239,6 +238,7 @@ llist* ll_insert(llist* head, llist* new) {
 }
 
 // Example: head = ll_delete(head, item); (remember to free memory for item)
+//delete object in link list
 llist* ll_delete(llist* head, llist* item) {
 	if(item->previous != NULL)
 		item->previous->next = item->next;
@@ -251,6 +251,7 @@ llist* ll_delete(llist* head, llist* item) {
 }
 
 // Example: llist* item = ll_search(head, key)
+//search for object in link list
 llist* ll_search(llist* head, unsigned int key) {
 	for(; head!=NULL; head=head->next) {
 		// printf("STUCK\n");
@@ -263,16 +264,19 @@ llist* ll_search(llist* head, unsigned int key) {
 
 // ======================= hash table functions =======================
 // hash table functions
+//insert entry into hashtable
 void ht_insert(llist** table, int size, llist* item) {
 	int key = item->key;
 	table[key%size] = ll_insert(table[key%size], item);
 }
 
+//delete entry in hashtable
 void ht_delete(llist** table, int size, llist* item) {
 	int key = item->key;
 	table[key%size] = ll_delete(table[key%size], item);
 }
 
+//search for entry in hashtable with key
 llist* ht_search(llist** table, int size, unsigned int key) {
 	return ll_search(table[key%size], key);
 }
