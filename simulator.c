@@ -1,5 +1,6 @@
 #include "simulator.h" 
 
+
 char* concat(const char* s1, const char* s2) {
 	char* newString = malloc(strlen(s1)+strlen(s2)+1);
 	strcpy(newString, s1);
@@ -25,12 +26,19 @@ char* getFileName() {
 void init(int psize, int winsize) {
 	page_size = psize;
 	window_size = winsize;
-	table_size = 1048576; // 2^20
+
+	double powLog;
+	powLog = log(numberOfElements/3)/log(2);
+	if (powLog < 0) {
+		powLog = 0;
+	}
+	int powInt = (int)powLog;
+
+	table_size = (int)pow(2,powInt); // 2^20
 	list_of_page_size = 0;
 	flag_print_working_sets = 0; //set to "false"
 
 	table = calloc(table_size, sizeof(llist*));
-	numberOfElements = 0;
 	list_of_pages = malloc(1*sizeof(int));
 
 	FILE* fp = fopen(getFileName(),"w+");

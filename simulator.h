@@ -4,6 +4,7 @@
 #include <strings.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
 
 // hashtbale, address is key and value
 

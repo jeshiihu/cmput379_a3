@@ -52,14 +52,15 @@ void process() {
 	srand (time(NULL));
 	printf("HEAPSORT\n");
 	
-	init(page_size, window_size);
-
 	/* This process function generates a number of integer */
 	/* keys and sorts them using bubblesort. */
 	unsigned int N, i;
 	printf("Please input the number of elements you wish to sort: ");
 	scanf ("%u", &N);
 	numberOfElements = N;
+	
+	init(page_size, window_size);
+
 	printf ("Sorting %u keys\n", N);
 
 
