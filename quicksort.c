@@ -43,11 +43,12 @@ void process() {
 	printf("QUICKSORT\n");
 	printf("Page size: %d, Window Size: %d\n", page_size, window_size);
 
-	init(page_size, window_size);
 
 	printf("Please input the number of elements you wish to sort: ");
 	while(numberOfElements <= 0)
 		scanf("%d", &numberOfElements);
+
+	init(page_size, window_size);
 
 	printf("Sorting %d values\n", numberOfElements);
 
